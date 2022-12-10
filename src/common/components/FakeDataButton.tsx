@@ -2,34 +2,33 @@ import { Button } from '@chakra-ui/react'
 
 import { db } from '../db'
 import downloadJson from '../services/downloadJson'
+import loadFeeds from '../services/loadFeeds'
 
 const loadFakeData = async () => {
   const feeds = await db.feeds.toArray()
-  downloadJson(feeds, 'dayco-feeds.json')
+  downloadJson(feeds, 'backup.json')
 
-  await db.feedMetas.clear()
+  await loadFeeds([
+    {
+      title: 'Blog React',
+      url: 'https://reactjs.org/feed.xml',
+      type: 'rss',
+      key: 'rss:https://reactjs.org/feed.xml',
+    },
+    {
+      title: 'Blog Angular',
+      url: 'https://blog.angular.io/feed',
+      type: 'rss',
+      key: 'rss:https://blog.angular.io/feed',
+    },
+    {
+      title: 'Blog Vue',
+      url: 'https://blog.vuejs.org/feed.rss',
+      type: 'rss',
+      key: 'rss:https://blog.vuejs.org/feed.rss',
+    },
+  ])
 
-  await db.feeds.clear()
-  await db.feeds.add({
-    title: 'Blog React',
-    url: 'https://reactjs.org/feed.xml',
-    type: 'rss',
-    key: 'rss:https://reactjs.org/feed.xml',
-  })
-  await db.feeds.add({
-    title: 'Blog Angular',
-    url: 'https://blog.angular.io/feed',
-    type: 'rss',
-    key: 'rss:https://blog.angular.io/feed',
-  })
-  await db.feeds.add({
-    title: 'Blog Vue',
-    url: 'https://blog.vuejs.org/feed.rss',
-    type: 'rss',
-    key: 'rss:https://blog.vuejs.org/feed.rss',
-  })
-
-  await db.newsItems.clear()
   await db.newsItems.add({
     feedKey: 'rss:https://reactjs.org/feed.xml',
     read: 0,

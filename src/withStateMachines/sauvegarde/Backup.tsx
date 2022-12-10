@@ -2,8 +2,11 @@ import { Button, Container, Heading, Stack, Textarea, useToast } from '@chakra-u
 import { useLiveQuery } from 'dexie-react-hooks'
 import { useCallback, useRef } from 'react'
 
+import UploadJsonFileButton from '../../common/components/UploadJsonFileButton'
 import { db } from '../../common/db'
 import downloadJson from '../../common/services/downloadJson'
+import loadFeeds from '../../common/services/loadFeeds'
+import { Feed } from '../../common/types'
 
 const Backup = () => {
   const toast = useToast()
@@ -32,6 +35,23 @@ const Backup = () => {
     })
   }, [feeds, toast])
 
+  const onUploaded = useCallback(
+    async (newFeeds: Feed[]) => {
+      const feeds = await db.feeds.toArray()
+      downloadJson(feeds, 'backup.json')
+
+      await loadFeeds(newFeeds)
+
+      toast({
+        title: 'Importation réussie',
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      })
+    },
+    [toast]
+  )
+
   return (
     <Container maxW="container.lg">
       <Stack spacing={6}>
@@ -39,6 +59,7 @@ const Backup = () => {
         <Stack direction="row" spacing={4} justify="space-between">
           <Heading size="lg">Contenu de la base de donnée</Heading>
           <Stack direction="row">
+            <UploadJsonFileButton onUploaded={onUploaded}>Importer</UploadJsonFileButton>
             <Button colorScheme="blue" variant="solid" onClick={copyDatabaseInClipboard}>
               Copier
             </Button>
