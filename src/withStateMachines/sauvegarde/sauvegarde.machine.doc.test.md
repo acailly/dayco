@@ -1,10 +1,10 @@
-# nouveautes
+# sauvegarde
 
 ## Diagramme d'état
 
 ```mermaid
 stateDiagram-v2  
-%% nouveautes  
+%% sauvegarde  
 	[*] --> Choix_du_type_de_sauvegarde  
 	Choix_du_type_de_sauvegarde: Choix du type de sauvegarde  
 

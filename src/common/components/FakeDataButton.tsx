@@ -1,53 +1,57 @@
 import { Button } from '@chakra-ui/react'
 
 import { db } from '../db'
+import downloadJson from '../services/downloadJson'
 
-const loadFakeData = () => {
-  db.feedMetas.clear()
+const loadFakeData = async () => {
+  const feeds = await db.feeds.toArray()
+  downloadJson(feeds, 'dayco-feeds.json')
 
-  db.feeds.clear()
-  db.feeds.add({
+  await db.feedMetas.clear()
+
+  await db.feeds.clear()
+  await db.feeds.add({
     title: 'Blog React',
     url: 'https://reactjs.org/feed.xml',
     type: 'rss',
     key: 'rss:https://reactjs.org/feed.xml',
   })
-  db.feeds.add({
+  await db.feeds.add({
     title: 'Blog Angular',
     url: 'https://blog.angular.io/feed',
     type: 'rss',
     key: 'rss:https://blog.angular.io/feed',
   })
-  db.feeds.add({
+  await db.feeds.add({
     title: 'Blog Vue',
     url: 'https://blog.vuejs.org/feed.rss',
     type: 'rss',
     key: 'rss:https://blog.vuejs.org/feed.rss',
   })
 
-  db.newsItems.clear()
-  db.newsItems.add({
+  await db.newsItems.clear()
+  await db.newsItems.add({
     feedKey: 'rss:https://reactjs.org/feed.xml',
     read: 0,
     title: 'React v18.0',
     url: 'https://reactjs.org/blog/2022/03/29/react-v18.html',
     timestamp: new Date('2022-03-29 02:00:00'),
   })
-  db.newsItems.add({
+  await db.newsItems.add({
     feedKey: 'rss:https://reactjs.org/feed.xml',
     read: 0,
     title: "React Labs: What We've Been Working On – June 2022",
     url: 'https://reactjs.org/blog/2022/06/15/react-labs-what-we-have-been-working-on-june-2022.html',
     timestamp: new Date('2022-06-15 02:00:00'),
   })
-  db.newsItems.add({
+  await db.newsItems.add({
     feedKey: 'rss:https://blog.vuejs.org/feed.rss',
     read: 0,
     title: 'Vue 2.7 "Naruto" Released',
     url: 'https://blog.vuejs.org/posts/vue-2-7-naruto.html',
     timestamp: new Date('2022-07-01 14:00:00'),
   })
-  db.newsItems.add({
+  await db.newsItems.add({
     feedKey: 'rss:https://blog.angular.io/feed',
     read: 0,
     title: 'Angular v15 is now available!',

@@ -14,9 +14,9 @@ import { MachineProvider } from './MachineProvider'
 // @ts-expect-error unknown property
 if (!window.Cypress) {
   inspect({
-    // url: 'https://stately.ai/viz?inspect', // (default)
+    url: 'https://stately.ai/viz?inspect', // (default)
     // url: 'https://statecharts.io/inspect',
-    url: 'http://localhost:9999/viz?inspect',
+    // url: 'http://localhost:9999/viz?inspect',
     iframe: false, // open in new window
   })
 }
