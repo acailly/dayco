@@ -3,6 +3,7 @@ import { ReactQueryDevtools } from 'react-query/devtools'
 import { Outlet, Route, Routes } from 'react-router-dom'
 
 import FakeDataButton from '../common/components/FakeDataButton'
+import baseUrl from '../common/services/baseUrl'
 
 import Feeds from './abonnements/Feeds'
 import NewFeed from './abonnements/NewFeed'
@@ -37,13 +38,13 @@ function App() {
             </>
           }
         >
-          <Route path="/news" element={<News />} />
-          <Route path="/feeds" element={<Feeds />} />
-          <Route path="/feeds/new" element={<NewFeed />} />
-          <Route path="/feeds/new/rss" element={<NewFeedRSS />} />
-          <Route path="/feeds/new/twitter" element={<NewFeedTwitter />} />
-          <Route path="/feeds/fetching" element={<FetchingFeedsStatus />} />
-          <Route path="/backup" element={<Backup />} />
+          <Route path={`${baseUrl}news`} element={<News />} />
+          <Route path={`${baseUrl}feeds`} element={<Feeds />} />
+          <Route path={`${baseUrl}feeds/new`} element={<NewFeed />} />
+          <Route path={`${baseUrl}feeds/new/rss`} element={<NewFeedRSS />} />
+          <Route path={`${baseUrl}feeds/new/twitter`} element={<NewFeedTwitter />} />
+          <Route path={`${baseUrl}feeds/fetching`} element={<FetchingFeedsStatus />} />
+          <Route path={`${baseUrl}backup`} element={<Backup />} />
         </Route>
       </Routes>
       <ReactQueryDevtools initialIsOpen={false} />

@@ -2,6 +2,7 @@ import { useToast } from '@chakra-ui/react'
 import { useMemo } from 'react'
 import { assign, spawn } from 'xstate'
 
+import baseUrl from '../../common/services/baseUrl'
 import { Actions, Context, Event } from '../machine.types'
 
 import useAbsoluteNavigate from './useAbsoluteNavigate'
@@ -15,25 +16,25 @@ const useMachineActions = () => {
   const actions: Actions = useMemo(() => {
     return {
       afficherPageNouveautes: () => {
-        navigate('/news')
+        navigate(`${baseUrl}news`)
       },
       afficherPageSauvegarde: () => {
-        navigate('/backup')
+        navigate(`${baseUrl}backup`)
       },
       afficherPageTelechargement: () => {
-        navigate('/feeds/fetching')
+        navigate(`${baseUrl}feeds/fetching`)
       },
       afficherPageListeAbonnements: () => {
-        navigate('/feeds')
+        navigate(`${baseUrl}feeds`)
       },
       afficherPageNouvelAbonnement: () => {
-        navigate('/feeds/new')
+        navigate(`${baseUrl}feeds/new`)
       },
       afficherPageNouvelAbonnementRSS: () => {
-        navigate('/feeds/new/rss')
+        navigate(`${baseUrl}feeds/new/rss`)
       },
       afficherPageNouvelAbonnementTwitter: () => {
-        navigate('/feeds/new/twitter')
+        navigate(`${baseUrl}feeds/new/twitter`)
       },
       contexteAbonnement: assign((context: Context, event: Event) => {
         if ('abonnement' in event) {

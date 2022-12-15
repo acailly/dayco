@@ -11,13 +11,13 @@ const initializeFromUrl = (
 ) => {
   console.log('-- Initialize state machine from URL:', currentLocation)
 
-  if (currentLocation.startsWith('/news')) {
+  if (currentLocation.includes('/news')) {
     interpretedStateMachine.send('NOUVEAUTES')
-  } else if (currentLocation.startsWith('/feeds')) {
+  } else if (currentLocation.includes('/feeds')) {
     interpretedStateMachine.send('ABONNEMENTS')
     const abonnements = interpretedStateMachine.children.get('abonnements') as ActorRef<Event> | undefined
 
-    if (currentLocation.startsWith('/feeds/new')) {
+    if (currentLocation.includes('/feeds/new')) {
       abonnements?.send('Ajouter un abonnement')
       if (currentLocation === '/feeds/new/rss') {
         abonnements?.send('Abonnement RSS')
@@ -27,7 +27,7 @@ const initializeFromUrl = (
     } else if (currentLocation === '/feeds/fetching') {
       interpretedStateMachine.send('TELECHARGER')
     }
-  } else if (currentLocation.startsWith('/backup')) {
+  } else if (currentLocation.includes('/backup')) {
     interpretedStateMachine.send('SAUVEGARDE')
   }
 }
