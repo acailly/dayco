@@ -4,6 +4,13 @@ import { Event } from '../machine.types'
 import navigationMachine from '../navigation/navigation.machine'
 
 // FIXME franchement c'est crade et pas maintenable
+// Piste d'amélioration :
+// ----
+// const targetNode = machine.getStateNodeById('/my-url') // <= présuppose qu'on ait définit id: '/my-url' sur l'état qu'on veut charger
+// const initialState = machine.getInitialState(targetNode.path[0], {})
+// useInterpret(fullAppMachine, { devTools: true, state: initialState })
+// ----
+// Sauf que ca ne gère pas les sous machines :-/
 const initializeFromUrl = (
   currentLocation: string,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
