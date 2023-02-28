@@ -42,54 +42,58 @@ const News = () => {
           <Heading>Nouveautés</Heading>
         </Stack>
         <Accordion colorScheme="blue" allowMultiple>
-          {Object.keys(newsItemsByFeed).map((feedKey) => {
-            const feed = feeds?.find((f) => f.key === feedKey)
-            const feedNewsItems = newsItemsByFeed[feedKey]
-            return (
-              feed && (
-                <AccordionItem key={feedKey}>
-                  <h2>
-                    <AccordionButton _expanded={{ bg: 'blue.500', color: 'white' }}>
-                      <Box flex="1" textAlign="left">
-                        <Text fontSize="lg">
-                          {feed?.title} ({feedNewsItems.length})
-                        </Text>
-                      </Box>
-                      <AccordionIcon />
-                    </AccordionButton>
-                  </h2>
-                  <AccordionPanel pb={4}>
-                    <MarkFeedNewsItemAsReadButton feed={feed} />
-                    <List spacing={10} paddingY={6}>
-                      {feedNewsItems.map((newsItem) => {
-                        if (!newsItem.url || !newsItem.feedKey) {
-                          return
-                        }
+          {Object.keys(newsItemsByFeed)
+            .sort((a?: string, b?: string): number => {
+              return a === b ? 0 : a == null ? -1 : b == null ? 1 : a.localeCompare(b)
+            })
+            .map((feedKey) => {
+              const feed = feeds?.find((f) => f.key === feedKey)
+              const feedNewsItems = newsItemsByFeed[feedKey]
+              return (
+                feed && (
+                  <AccordionItem key={feedKey}>
+                    <h2>
+                      <AccordionButton _expanded={{ bg: 'blue.500', color: 'white' }}>
+                        <Box flex="1" textAlign="left">
+                          <Text fontSize="lg">
+                            {feed?.title} ({feedNewsItems.length})
+                          </Text>
+                        </Box>
+                        <AccordionIcon />
+                      </AccordionButton>
+                    </h2>
+                    <AccordionPanel pb={4}>
+                      <MarkFeedNewsItemAsReadButton feed={feed} />
+                      <List spacing={10} paddingY={6}>
+                        {feedNewsItems.map((newsItem) => {
+                          if (!newsItem.url || !newsItem.feedKey) {
+                            return
+                          }
 
-                        const key = encodeURIComponent(newsItem.feedKey) + encodeURIComponent(newsItem.url)
-                        return (
-                          <ListItem key={key}>
-                            <Stack direction="row" justify="space-between" spacing={4}>
-                              <Stack direction="column" spacing={0}>
-                                <Text fontSize="lg">{newsItem.title}</Text>
-                                <Text fontSize="sm" color="gray.500">
-                                  {newsItem.timestamp?.toLocaleDateString()}
-                                </Text>
-                                <Link color="blue.500" href={newsItem.url} isExternal>
-                                  {newsItem.url} <ExternalLinkIcon mx="2px" />
-                                </Link>
+                          const key = encodeURIComponent(newsItem.feedKey) + encodeURIComponent(newsItem.url)
+                          return (
+                            <ListItem key={key}>
+                              <Stack direction="row" justify="space-between" spacing={4}>
+                                <Stack direction="column" spacing={0}>
+                                  <Text fontSize="lg">{newsItem.title}</Text>
+                                  <Text fontSize="sm" color="gray.500">
+                                    {newsItem.timestamp?.toLocaleDateString()}
+                                  </Text>
+                                  <Link color="blue.500" href={newsItem.url} isExternal>
+                                    {newsItem.url} <ExternalLinkIcon mx="2px" />
+                                  </Link>
+                                </Stack>
+                                <MarkNewsItemAsReadButton newsItem={newsItem} />
                               </Stack>
-                              <MarkNewsItemAsReadButton newsItem={newsItem} />
-                            </Stack>
-                          </ListItem>
-                        )
-                      })}
-                    </List>
-                  </AccordionPanel>
-                </AccordionItem>
+                            </ListItem>
+                          )
+                        })}
+                      </List>
+                    </AccordionPanel>
+                  </AccordionItem>
+                )
               )
-            )
-          })}
+            })}
         </Accordion>
       </Stack>
     </Container>

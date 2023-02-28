@@ -12,7 +12,7 @@ import App from './App'
 import { MachineProvider } from './MachineProvider'
 
 // @ts-expect-error unknown property
-if (!window.Cypress) {
+if (!window.Cypress && import.meta.env.MODE === 'development') {
   inspect({
     url: 'https://stately.ai/viz?inspect', // (default)
     // url: 'https://statecharts.io/inspect',

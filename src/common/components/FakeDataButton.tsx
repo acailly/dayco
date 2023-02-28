@@ -60,11 +60,11 @@ const loadFakeData = async () => {
 }
 
 const FakeDataButton = () => {
-  return (
+  return import.meta.env.MODE === 'development' ? (
     <Button colorScheme="blue" variant="outline" position="fixed" bottom="1rem" right="1rem" onClick={loadFakeData}>
       Charger les données fictives
     </Button>
-  )
+  ) : null
 }
 
 export default FakeDataButton
