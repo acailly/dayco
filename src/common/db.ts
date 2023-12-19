@@ -2,6 +2,8 @@ import Dexie, { Table } from 'dexie'
 
 import { Feed, FeedMeta, NewsItem } from './types'
 
+// Dexie schema syntax : https://dexie.org/docs/Version/Version.stores()#schema-syntax
+
 export class Database extends Dexie {
   feeds!: Table<Feed>
   feedMetas!: Table<FeedMeta>

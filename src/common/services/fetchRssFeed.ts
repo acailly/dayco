@@ -21,7 +21,7 @@ function parseRawRssFeedContent(text: string): Omit<NewsItem, 'feedKey' | 'read'
       })
     case 'feed':
       return Array.from(xml.documentElement.getElementsByTagName('entry')).map((item) => {
-        const updatedDate = tag(item, 'updated')
+        const pubDate = tag(item, 'published') || tag(item, 'updated')
         return {
           url:
             Array.from(item.getElementsByTagName('link')).map((link) => {
@@ -31,7 +31,7 @@ function parseRawRssFeedContent(text: string): Omit<NewsItem, 'feedKey' | 'read'
               }
             })[0] ?? null,
           title: tag(item, 'title'),
-          timestamp: updatedDate ? new Date(updatedDate) : null,
+          timestamp: pubDate ? new Date(pubDate) : null,
         }
       })
   }
